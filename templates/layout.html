@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto" rel="stylesheet">
+    {# Dynamic title #}
+    {% if title %}
+      <title>FOLFWEB - {{ title }}</title>
+    {% else %}
+      <title>FOLFWEB</title>
+    {% endif %}
+  </head>
+
+  <body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+
+          <a class="navbar-brand mr-4" href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='icon.png') }}" alt="Icon of a basket" height="40">
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('home') }}">
+                <span class="heading-special">Home</span>
+              </a>
+              <a class="nav-item nav-link" href="{{ url_for('rules') }}">
+                <span class="heading-special">Rules</span>
+              </a>
+              {# If the user is actually logged in this will be rendered #}
+              {% if user %}
+                <a class="nav-item nav-link" href="{{ url_for('courses') }}">
+                  <span class="heading-special">Courses</span>
+                </a>
+                <a class="nav-item nav-link" href="{{ url_for('games') }}">
+                  <span class="heading-special">Games</span>
+                </a>
+              {% endif %}
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {# If the user is logged in this will be rendered #}
+              {% if user %}
+                <span class="nav-item heading-special" style="display: inline-block;">
+                  {{ user['Email'] }}<a href="{{ url_for('logout') }}"> Logout</a>
+                </span>
+              {% else %}
+                {# If user is not logged in this will be rendered #}
+                <a class="nav-item nav-link" href="{{ url_for('login') }}">
+                  <span class="heading-special">Login</span>
+                </a>
+                <a class="nav-item nav-link" href="{{ url_for('register') }}">
+                  <span class="heading-special">Register</span>
+                </a>
+              {% endif %}
+            </div>
+
+          </div>
+
+        </div>
+      </nav>
+    </header>
+
+    <main role="main" class="container">
+      <div class="row mt-10">
+        <div class="col-md-8">
+          {# Dynamic message banner #}
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {# All templates get rendered in this block #}
+          <div class"container">{% block content %}{% endblock %}</div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="content-section mt-2">
+          {# Sidebar rendering #}
+          {% if topGames %}
+            <h4>Top 5:</h4>
+            <div class="bg-warning p-2">
+              <h6>{{ topGames['Location'] }}</h6>
+              <span class="heading-special">{{ topGames['Course'] }}</span>
+            </div>
+            <ul class="list-group">
+              {% for player in topGames['Players'] %}
+                <li class="list-group-item list-group-item-light d-flex justify-content-between">
+                  <span class="heading-special">{{ player[0] }}</span>
+                  <span class="badge badge-pill badge-warning heading-special p-2">{{ player[1] }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {# if no Top 5 list was sent, course info gets rendered #}
+          {% else %}
+            <div class="bg-warning p-3 d-flex justify-content-between">
+              <div>
+                <h6>{{ courseInfo['Location'] }}</h6>
+                <span class="heading-special">{{ courseInfo['Course'] }}</span>
+              </div>
+              <div class="">
+                {% if 'Red' in courseInfo['BasketColor'] %}
+                  <span class="heading-special border border-danger badge badge-danger white-x p-2 m-2">RED</span>
+                {% else %}
+                  <span class="heading-special border border-white badge badge-light p-2 m-2">WHITE</span>
+                {% endif %}
+              </div>
+            </div>
+            <ul class="list-group">
+              {% for lane in range(courseInfo['Baskets']|length) %}
+                <li class="list-group-item list-group-item-light d-flex justify-content-around">
+                  <span class="heading-special">Hole</span>
+                  <span class="badge badge-warning heading-special p-2">{{ lane+1 }}</span>&nbsp;&nbsp;&nbsp;
+                  <span class="heading-special">Par</span>
+                  <span class="badge badge-warning heading-special p-2">{{ courseInfo['Baskets'][lane]['Par'] }}</span>&nbsp;&nbsp;&nbsp;
+
+                  <span class="badge badge-warning heading-special p-2">{{ courseInfo['Baskets'][lane]['Length'] }}m</span>
+                </li>
+              {% endfor %}
+            </ul>
+            </p>
+          {% endif %}
+          </div>
+        </div>
+        {# If the course info is passed, it gets rendered #}
+        {% if courseInfo %}
+        <div class="col-md-8">
+          <div class="content-section">
+            <p class="bg-warning heading-special-2 rounded p-2 mt-2">Course Info:</p>
+            <p class="text-justify">{{ courseInfo['Info'] }}</p>
+            <p class="bg-warning heading-special-2 rounded p-2 mt-2">Course Map:</p>
+            {% if courseInfo['Course'] == 'Laugardalur' %}
+              <img class="img-fluid mt-2" src="{{ url_for('static', filename='laugardalur.png') }}" alt="map of course">
+            {% elif courseInfo['Course'] == 'Klambratún' %}
+              <img class="img-fluid mt-2" src="{{ url_for('static', filename='klambra.png') }}" alt="map of course">
+            {% else %} 
+              <img class="img-fluid mt-2" src="{{ url_for('static', filename='akranes.png') }}" alt="map of course">
+            {% endif %}
+
+          <div>
+        </div>
+        {% endif %}
+      </div>
+    </main>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"></script>
+  </body>
+
+</html>

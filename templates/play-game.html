@@ -1,0 +1,177 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+      <legend class="border-bottom p-3 mb-4 bg-warning rounded">Play Sheet</legend>
+
+      <div class="form-group row ml-2">
+        {{ form.player_name.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.player_name.errors %}
+          {{ form.player_name(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.player_name.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.player_name(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group row ml-2">
+        {{ form.hole_1.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.hole_1.errors %}
+          {{ form.hole_1(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.hole_1.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.hole_1(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group row ml-2">
+        {{ form.hole_2.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.hole_2.errors %}
+          {{ form.hole_2(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.hole_2.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.hole_2(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group row ml-2">
+        {{ form.hole_3.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.hole_3.errors %}
+          {{ form.hole_3(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.hole_3.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.hole_3(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group row ml-2">
+        {{ form.hole_4.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.hole_4.errors %}
+          {{ form.hole_4(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.hole_4.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.hole_4(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group row ml-2">
+        {{ form.hole_5.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.hole_5.errors %}
+          {{ form.hole_5(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.hole_5.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.hole_5(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group row ml-2">
+        {{ form.hole_6.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.hole_6.errors %}
+          {{ form.hole_6(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.hole_6.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.hole_6(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group row ml-2">
+        {{ form.hole_7.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.hole_7.errors %}
+          {{ form.hole_7(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.hole_7.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.hole_7(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group row ml-2">
+        {{ form.hole_8.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.hole_8.errors %}
+          {{ form.hole_8(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.hole_8.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.hole_8(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group row ml-2">
+        {{ form.hole_9.label(class="form-control-label") }}
+        <div class="col-sm-10">
+        {% if form.hole_9.errors %}
+          {{ form.hole_9(class="form-control is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.hole_9.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.hole_9(class="form-control") }}
+        {% endif %}
+        </div>
+      </div>
+
+    </fieldset>
+    <div class="form-group heading-special">
+      {{ form.submit(class="btn btn-warning") }}
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

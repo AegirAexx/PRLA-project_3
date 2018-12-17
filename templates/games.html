@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2 class="ml-3">GAMES HISTORY</h2>
+{# Here each game in the history is rendered #}
+{% if game_list != []  %}
+  {% for game in game_list %}
+    <div class="container">
+      <div class="bg-warning pl-3 pr-3 pt-3 mt-4 border border-warning d-flex ">
+        <div>
+          <h6>{{ game['Location'] }}</h6>
+          <span>{{ game['Course'] }}&nbsp;&nbsp;&nbsp;</span>
+          <span>{{ game['Date'] }}</span>
+        </div>
+        <div class="ml-auto">
+          {% if 'Red' in game['Games'] %}
+            <span class="heading-special border border-danger badge badge-danger white-x p-2 m-2">RED</span>
+          {% else %}
+            <span class="heading-special border border-white badge badge-light p-2 m-2">WHITE</span>
+          {% endif %}
+        </div>
+      </div>
+      <div class="table-responsive-sm">
+        {% for color in game['Games'] %}
+          <table class="table table-borderless">
+            <thead>
+              <tr class="bg-warning">
+                <td><span class="heading-special ml-2">Hole:</span></td>
+                <td><span class="heading-special">Score:</span></td>
+              </tr>
+            </thead>
+            <tbody>
+            {% for r  in range(game['Games'][color]|length) %}
+              {% if game['Games'][color][r] != None %}
+                <tr class="table-warning">
+                  <td><span class="ml-2">&nbsp;&nbsp;&nbsp;{{ r }}</span></td>
+                  <td><span>&nbsp;&nbsp;&nbsp;{{ game['Games'][color][r] }}</span></td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+            <tr class="bg-warning">
+              <td><span>&nbsp;&nbsp;&nbsp;Total for the course:</span></td>
+              <td><span>&nbsp;&nbsp;&nbsp;{{ game['Total'] }}</span></td>
+            </tr>
+            </tbody>
+          </table>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+{% else  %}
+  {# If the user has not played any games yet #}
+  <h6>You have not played a game yet.</h6>
+  <a class="nav-item nav-link" href="{{ url_for('courses') }}">
+    <h4>Go Play!</h4>
+  </a>
+{% endif %}
+
+{% endblock content %}

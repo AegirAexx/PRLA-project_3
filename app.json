@@ -1,0 +1,7 @@
+{
+  "name": "Project 3 SC-T-308-PRLA",
+  "description": "A barebones Python app, which can easily be deployed to Heroku.",
+  "image": "heroku/python",
+  "repository": "https://github.com/heroku/python-getting-started",
+  "keywords": ["python", "flask"]
+}

@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2 class="">PLAY A COURSE</h2>
+<div class="p-3 mt-4 bg-warning rounded d-flex flex-column justify-content-center align-items-center border border-warning">
+  <h6 class="heading-special">Choose either</h6>
+  <br>
+  <div>
+    <span class="border border-danger badge badge-danger p-2">
+      <h6 style="color: #FFFFFF;" class="m-1">RED</h6>
+    </span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="heading-special-2">OR</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="border border-white badge badge-light p-2">
+      <h6 class="m-1">WHITE</h6>
+    </span>
+  </div>
+  <br>
+  <h6 class="heading-special">Starting points.</h6>
+</div>
+
+{# Here all the courses are rendered #}
+{% for location in course_dict %}
+  <ul class="list-group mb-5 mt-4 heading-special">
+    <li class="list-group-item bg-warning">{{ location }}</li>
+    {% for courses in course_dict[location] %}
+      <li class="list-group-item list-group-item-warning">
+        <span style="color: #444444;">{{ courses }} -</span>
+        {% for color in course_dict[location][courses]['Baskets'] %}
+          {% if color == 'Red' %}
+            <a href="{{ url_for('play_game', location=location, course=courses, color=color) }}" class="border border-danger badge badge-danger p-2">
+              {{ color }}
+            </a>
+          {% else %}
+            <a href="{{ url_for('play_game', location=location, course=courses, color=color) }}" class="border border-white badge badge-light p-2">
+              {{ color }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+
+{% endblock content %}
